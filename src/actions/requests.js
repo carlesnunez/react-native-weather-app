@@ -21,8 +21,8 @@ export const fillCityAutoComplete = (response) => {
     };
 };
 
-export const navigateToCityDetails = (responseJson, cityName) => {
-    return push({key: 'cityDetails', wheaterInfo: responseJson[0], cityName: cityName});
+export const navigateToCityDetails = (responseJson) => {
+    return push({key: 'cityDetails', selectedCityId: responseJson[0].MobileLink.split('/')[6]});
 }
 
 export const fillCityWeather = (wheaterInfo, cityName) => {
@@ -46,7 +46,7 @@ export function fetchCity(cityName) {
 
 export function checkCityWeather(cityData) {
     const APIKEY = 'zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU';
-    const apiUrl = `https://dataservice.accuweather.com/currentconditions/v1/${cityData.Key}?apikey=${APIKEY}&language=es-es&details=true `;
+    const apiUrl = `https://dataservice.accuweather.com/currentconditions/v1/${cityData.id}?apikey=${APIKEY}&language=es-es&details=true `;
 
     return (dispatch) => {
         const callbackArray = [

@@ -48,7 +48,7 @@ export default class SearchScene extends React.Component {
 
   selectCityInputOpened(value ){
     //If our value is true we open the list otherwise if is false and our list is not currently closed we close the list:
-    value ? this.props.openCityList() : (this.props.root.selectCityInputOpened && this.props.closeCityList());
+    value ? this.props.openCityList() : (this.props.selectCityInputOpened && this.props.closeCityList());
   }
 
   getCityElement(cityInfo) {
@@ -56,9 +56,9 @@ export default class SearchScene extends React.Component {
   }
 
   getCityListElement(){
-    if(this.props.root.cityList.length > 0) {
+    if(this.props.cityList.length > 0) {
       return  <ListView style={{ flex: 1, backgroundColor: '#ebebeb' }}
-        dataSource={this.ds.cloneWithRows(this.props.root.cityList)}
+        dataSource={this.ds.cloneWithRows(this.props.cityList)}
         enableEmptySections={true}
         renderRow={rowData => this.getCityElement(rowData)}
       />
@@ -72,7 +72,7 @@ export default class SearchScene extends React.Component {
       inputRange: [0, 1],
       outputRange: ['0deg', '360deg']
     });
-    return (<View style={{ flex: 1, alignItems: 'center', backgroundColor: '#262626', marginTop: (this.props.root.selectCityInputOpened ? -355: 0)}} >
+    return (<View style={{ flex: 1, alignItems: 'center', backgroundColor: '#262626', marginTop: (this.props.selectCityInputOpened ? -355: 0)}} >
       <TouchableWithoutFeedback style={style.searchScene.touchableComponent} onPress={() => {
         dismissKeyBoard();
         this.selectCityInputOpened(false);
@@ -83,7 +83,7 @@ export default class SearchScene extends React.Component {
         <TextInput style={style.searchScene.textInput}
           onChange={(e)=> e.nativeEvent.text && this.onKeyPress(e.nativeEvent.text)}
           onFocus={() => this.selectCityInputOpened(true)}
-          value={this.props.root.selectedCity}
+          value={this.props.selectedCity}
           placeholder="Search for a city..." />
         </View>
       </TouchableWithoutFeedback>

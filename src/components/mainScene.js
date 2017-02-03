@@ -6,7 +6,7 @@ import dismissKeyBoard from 'react-native/Libraries/Utilities/dismissKeyboard';
 import React from 'react';
 import {pop, push} from '../actions/navigation';
 import SearchSceneContainer from '../containers/searchSceneContainer';
-import CityDetails from '../components/cityDetails';
+import CityDetailsContainer from '../containers/cityDetailsContainer';
 
 const {
   CardStack: NavigationCardStack
@@ -33,7 +33,7 @@ class MainScene extends React.Component {
     }
 
     if (route.key === 'cityDetails') {
-      return <CityDetails _handleNavigate={this._handleNavigate.bind(this)} wheaterInfo={route.wheaterInfo} cityName={route.cityName}/>
+      return <CityDetailsContainer _handleNavigate={this._handleNavigate.bind(this)} selectedCityId={route.selectedCityId}/>
     }
   }
 
