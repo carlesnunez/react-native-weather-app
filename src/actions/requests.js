@@ -11,7 +11,7 @@ export const parseResponseAndExecAction = (
                                                 });
 
 export const doApiCall = (endpoint, options) => {
-    return fetch(endpoint);
+    return fetch(endpoint, options);
 }
 
 export const fillCityAutoComplete = (response) => {
@@ -22,14 +22,13 @@ export const fillCityAutoComplete = (response) => {
 };
 
 export const navigateToCityDetails = (responseJson) => {
-    return push({key: 'cityDetails', selectedCityId: responseJson[0].MobileLink.split('/')[6]});
+    return push({ key: 'cityDetails', selectedCityId: responseJson[0].MobileLink.split('/')[6] });
 }
 
-export const fillCityWeather = (wheaterInfo, cityName) => {
-    return  {
+export const fillCityWeather = (wheaterInfo) => {
+    return {
         type: 'CHECK_CITY_WEATHER',
-        wheaterInfo,
-        cityName
+        wheaterInfo
     }
 }
 
@@ -37,7 +36,7 @@ export function fetchCity(cityName) {
     const APIKEY = 'zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU';
     const apiUrl = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${APIKEY}&q=${cityName}&language=es`;
     return (dispatch) => {
-        doApiCall(apiUrl).then((response) => parseResponseAndExecAction(response, fillCityAutoComplete, dispatch))
+        return doApiCall(apiUrl).then((response) => parseResponseAndExecAction(response, fillCityAutoComplete, dispatch))
         .catch((error) => {
             console.error(error);
         });
@@ -46,14 +45,14 @@ export function fetchCity(cityName) {
 
 export function checkCityWeather(cityData) {
     const APIKEY = 'zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU';
-    const apiUrl = `https://dataservice.accuweather.com/currentconditions/v1/${cityData.id}?apikey=${APIKEY}&language=es-es&details=true `;
+    const apiUrl = `https://dataservice.accuweather.com/currentconditions/v1/${cityData.id}?apikey=${APIKEY}&language=es-es&details=true`;
 
     return (dispatch) => {
         const callbackArray = [
-            (response) => fillCityWeather(response, cityData.LocalizedName, dispatch),
-            (response) => navigateToCityDetails(response, cityData.LocalizedName)
+            (response) => fillCityWeather(response, dispatch),
+            (response) => navigateToCityDetails(response)
         ];
-        doApiCall(apiUrl).then((response) => parseResponseAndExecAction(response, callbackArray, dispatch))
+        return doApiCall(apiUrl).then((response) => parseResponseAndExecAction(response, callbackArray, dispatch))
         .catch((error) => {
             console.error(error);
         });

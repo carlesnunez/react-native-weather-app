@@ -4,7 +4,7 @@
         "react/prefer-stateless-function": 0,
         "react/jsx-filename-extension": 0,
         "react/react-jsx-indent": 0,
-        "react/react-jsx-indent-props": 0
+        "react/react-jsx-indent-props": 0,
         "indent": 0,
         }
 }

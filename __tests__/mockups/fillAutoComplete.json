@@ -1,0 +1,152 @@
+[
+    {
+        "Version": 1,
+        "Key": "308526",
+        "Type": "City",
+        "Rank": 10,
+        "LocalizedName": "Madrid",
+        "Country": {
+            "ID": "ES",
+            "LocalizedName": "España"
+        },
+        "AdministrativeArea": {
+            "ID": "MD",
+            "LocalizedName": "Comunidad de Madrid"
+        }
+    },
+    {
+        "Version": 1,
+        "Key": "206674",
+        "Type": "City",
+        "Rank": 25,
+        "LocalizedName": "Madurai",
+        "Country": {
+            "ID": "IN",
+            "LocalizedName": "India"
+        },
+        "AdministrativeArea": {
+            "ID": "TN",
+            "LocalizedName": "Tamil Nadu"
+        }
+    },
+    {
+        "Version": 1,
+        "Key": "331530",
+        "Type": "City",
+        "Rank": 41,
+        "LocalizedName": "Madison",
+        "Country": {
+            "ID": "US",
+            "LocalizedName": "Estados Unidos"
+        },
+        "AdministrativeArea": {
+            "ID": "WI",
+            "LocalizedName": "Wisconsin"
+        }
+    },
+    {
+        "Version": 1,
+        "Key": "186797",
+        "Type": "City",
+        "Rank": 45,
+        "LocalizedName": "Madanapalle",
+        "Country": {
+            "ID": "IN",
+            "LocalizedName": "India"
+        },
+        "AdministrativeArea": {
+            "ID": "AP",
+            "LocalizedName": "Andhra pradesh"
+        }
+    },
+    {
+        "Version": 1,
+        "Key": "190754",
+        "Type": "City",
+        "Rank": 45,
+        "LocalizedName": "Madavaram",
+        "Country": {
+            "ID": "IN",
+            "LocalizedName": "India"
+        },
+        "AdministrativeArea": {
+            "ID": "TN",
+            "LocalizedName": "Tamil Nadu"
+        }
+    },
+    {
+        "Version": 1,
+        "Key": "3207903",
+        "Type": "City",
+        "Rank": 45,
+        "LocalizedName": "Madhubani",
+        "Country": {
+            "ID": "IN",
+            "LocalizedName": "India"
+        },
+        "AdministrativeArea": {
+            "ID": "BR",
+            "LocalizedName": "Bihar"
+        }
+    },
+    {
+        "Version": 1,
+        "Key": "203182",
+        "Type": "City",
+        "Rank": 45,
+        "LocalizedName": "Madiun",
+        "Country": {
+            "ID": "ID",
+            "LocalizedName": "Indonesia"
+        },
+        "AdministrativeArea": {
+            "ID": "JI",
+            "LocalizedName": "Java Oriental"
+        }
+    },
+    {
+        "Version": 1,
+        "Key": "2799453",
+        "Type": "City",
+        "Rank": 45,
+        "LocalizedName": "Maduravoyal",
+        "Country": {
+            "ID": "IN",
+            "LocalizedName": "India"
+        },
+        "AdministrativeArea": {
+            "ID": "TN",
+            "LocalizedName": "Tamil Nadu"
+        }
+    },
+    {
+        "Version": 1,
+        "Key": "224575",
+        "Type": "City",
+        "Rank": 51,
+        "LocalizedName": "Madaba",
+        "Country": {
+            "ID": "JO",
+            "LocalizedName": "Jordania"
+        },
+        "AdministrativeArea": {
+            "ID": "MD",
+            "LocalizedName": "Gobernación de Madaba"
+        }
+    },
+    {
+        "Version": 1,
+        "Key": "212301",
+        "Type": "City",
+        "Rank": 55,
+        "LocalizedName": "Maddaloni",
+        "Country": {
+            "ID": "IT",
+            "LocalizedName": "Italia"
+        },
+        "AdministrativeArea": {
+            "ID": "72",
+            "LocalizedName": "Campania"
+        }
+    }
+]
