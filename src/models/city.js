@@ -1,7 +1,10 @@
 import { fk, many, attr, Model } from 'redux-orm';
+import propTypesMixin from 'redux-orm-proptypes';
 import { FILL_CITY_AUTOCOMPLETE, CHECK_CITY_WEATHER } from '../constants/ActionTypes';
 
-export default class City extends Model {
+const ValidatingModel = propTypesMixin(Model);
+
+export default class City extends ValidatingModel {
     static get fields() {
         return {
             id: attr(),

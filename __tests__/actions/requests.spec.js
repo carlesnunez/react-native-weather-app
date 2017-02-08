@@ -9,6 +9,7 @@ import checkCityWeatherResponse from '../mockups/checkCityWeather.json'
 import oneCityResponse from '../mockups/oneCity.json';
 const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
+
 describe('async actions', () => {
         afterEach(() => {
                 nock.cleanAll();

@@ -37,10 +37,17 @@
     "jest": "18.1.0",
     "nock": "^9.0.2",
     "react-test-renderer": "15.4.2",
-    "redux-mock-store": "^1.2.2"
+    "redux-mock-store": "^1.2.2",
+    "redux-orm-proptypes": "^0.1.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "verbose": true,
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "__tests__/factories",
+      "__tests__/utils"
+    ]
   },
   "rnpm": {
     "assets": [
