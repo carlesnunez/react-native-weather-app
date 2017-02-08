@@ -13,8 +13,11 @@ describe('City model', () => {
     beforeEach(() => {
         session = orm.session(); // Before withMutations;
         factory.setAdapter(new ReduxORMAdapter(session));
+        factory.create('City').then((city)=> {
+            console.log(session.City.first());
+            console.log(city.weatherInfo);
+        });
 
-        factory.create('City');
     });
 
     it('correctly handle FILL_CITY_AUTOCOMPLETE', () => {

@@ -15,7 +15,7 @@ factory.define('City', 'City', {
     type: factory.sequence(n => `City${n}`),
     name: factory.chance('city'),
     country: factory.chance('country'),
-    weatherInfo: factory.assocMany('WeatherInfo', 3, 'id'),
+    weatherInfo: factory.assoc('WeatherInfo', 'id'),
 });
 
 export default factory;
