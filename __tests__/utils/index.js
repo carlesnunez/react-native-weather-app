@@ -12,15 +12,15 @@ export class ReduxORMAdapter {
     return this.session[modelName].create(props);
   }
 
+  get(model, attr) {
+    return model[attr];
+  }
+  
   async save(model, Model) {
    return model;
   }
 
   async destroy(model, Model) {
     return Promise.resolve(model.destroy()).then(() => model);
-  }
-
-  get(model, attr) {
-    return model[attr];
   }
 }
