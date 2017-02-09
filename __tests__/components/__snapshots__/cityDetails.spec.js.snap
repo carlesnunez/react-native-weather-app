@@ -1,0 +1,90 @@
+exports[`<CityDetails /> Input and Button component renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#262626",
+      "flex": 1,
+    }
+  }>
+  <View
+    accessibilityComponentType={undefined}
+    accessibilityLabel={undefined}
+    accessibilityTraits={undefined}
+    accessible={true}
+    hitSlop={undefined}
+    onLayout={undefined}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+        },
+        Object {
+          "marginLeft": 8,
+          "marginTop": 30,
+        },
+      ]
+    }
+    testID={undefined}>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#ffffff",
+          "fontSize": 20,
+        }
+      }>
+      < Back
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+      }
+    }>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "marginTop": 150,
+        }
+      } />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#ffffff",
+          "fontFamily": "Nunito-Bold",
+          "fontSize": 50,
+          "height": 70,
+          "textAlign": "center",
+        }
+      }>
+      undefined undefinedº
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#ffffff",
+          "fontFamily": "Nunito-Bold",
+          "fontSize": 40,
+          "textAlign": "center",
+        }
+      } />
+  </View>
+</View>
+`;

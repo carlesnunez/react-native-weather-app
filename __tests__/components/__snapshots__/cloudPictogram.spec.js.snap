@@ -1,0 +1,9 @@
+exports[`<CloudPictogram /> Input and Button component renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "marginTop": 150,
+    }
+  } />
+`;

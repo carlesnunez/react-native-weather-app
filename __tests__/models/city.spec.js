@@ -8,7 +8,7 @@ import { ReduxORMAdapter, applyActionToModelReducer } from '../utils/index';
 import responseFillCityAutoComplete from '../mockups/fillAutoComplete.json';
 import responseCheckCityWeather from '../mockups/checkCityWeather.json';
 
-describe('City model', () => {
+describe.only('City model', () => {
     let session;
     beforeEach((done) => {
         session = orm.session(); // Before withMutations;
@@ -16,7 +16,6 @@ describe('City model', () => {
         factory.create('City').then(()=> {
             done();
         });
-
     });
 
     it('correctly handle FILL_CITY_AUTOCOMPLETE delete all cities and push 10 new to our store', () => {

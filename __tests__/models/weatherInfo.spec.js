@@ -25,6 +25,6 @@ describe('City model', () => {
         expect(session.WeatherInfo.all().count()).toEqual(1);
         applyActionToModelReducer(orm, 'WeatherInfo', action, session);
         expect(session.WeatherInfo.all().count()).toEqual(2);
-        expect(session.WeatherInfo.all().toRefArray()[1].id).toEqual("308526")
+        expect(session.WeatherInfo.all().toRefArray()[1].id).toEqual("308526");
     })
 });

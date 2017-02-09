@@ -6,7 +6,6 @@ import cityListSelector from '../selectors/citySelector';
 import React from 'react';
 
 const mapStateToProps = (state) => {
-  console.log('state', state);
   return {
     cityList: cityListSelector(state),
     selectCityInputOpened: state.root.selectCityInputOpened,

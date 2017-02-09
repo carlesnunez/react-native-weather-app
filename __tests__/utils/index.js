@@ -20,6 +20,6 @@ export class ReduxORMAdapter {
   }
 
   async destroy(model, Model) {
-    return Promise.resolve(model.destroy()).then(() => model);
+    return Promise.resolve(model.delete());
   }
 }

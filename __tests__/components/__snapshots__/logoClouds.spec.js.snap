@@ -1,0 +1,45 @@
+exports[`<LogoClouds /> Input and Button component renders correctly 1`] = `
+<View>
+  <Image
+    source={1}
+    style={
+      Object {
+        "marginLeft": 0,
+        "marginTop": 150,
+        "tintColor": "#ffff00",
+        "transform": Array [
+          Object {
+            "scale": 1,
+          },
+          Object {
+            "rotate": "30deg",
+          },
+        ],
+      }
+    } />
+  <Image
+    source={1}
+    style={
+      Object {
+        "marginLeft": 50,
+        "marginTop": -142,
+        "tintColor": "#F5FCFF",
+      }
+    } />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#ffffff",
+        "fontFamily": "Nunito-Bold",
+        "fontSize": 50,
+        "height": 70,
+        "textAlign": "center",
+      }
+    }>
+    KeradWeather
+  </Text>
+</View>
+`;
