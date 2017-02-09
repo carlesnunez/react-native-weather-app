@@ -18,12 +18,12 @@ export default class WeatherInfo extends Model {
     static reducer(action, WeatherInfo, session) {
         switch(action.type){
             case CHECK_CITY_WEATHER:
-            const wheaterInfoID = action.wheaterInfo[0].MobileLink.split("/")[6];
+            const weatherInfoID = action.weatherInfo[0].MobileLink.split("/")[6];
             WeatherInfo.create({
-                id: wheaterInfoID,
-                previsionText: action.wheaterInfo[0].WeatherText,
-                iconId: action.wheaterInfo[0].WeatherIcon,
-                temperature: action.wheaterInfo[0].Temperature.Metric.Value,
+                id: weatherInfoID,
+                previsionText: action.weatherInfo[0].WeatherText,
+                iconId: action.weatherInfo[0].WeatherIcon,
+                temperature: action.weatherInfo[0].Temperature.Metric.Value,
             });
             break;
         }

@@ -25,10 +25,10 @@ export const navigateToCityDetails = (responseJson) => {
     return push({ key: 'cityDetails', selectedCityId: responseJson[0].MobileLink.split('/')[6] });
 }
 
-export const fillCityWeather = (wheaterInfo) => {
+export const fillCityWeather = (weatherInfo) => {
     return {
         type: 'CHECK_CITY_WEATHER',
-        wheaterInfo
+        weatherInfo
     }
 }
 

@@ -32,10 +32,10 @@ describe.only('City model', () => {
         expect(session.City.all().count()).toEqual(10);
     })
 
-    it('should relate our CITY weather with a valid wheaterInfo ID given by action dispatch', ()=>{
+    it('should relate our CITY weather with a valid weatherInfo ID given by action dispatch', ()=>{
         const action = {
             type: CHECK_CITY_WEATHER,
-            wheaterInfo: responseCheckCityWeather,
+            weatherInfo: responseCheckCityWeather,
         }
 
         factory.create('WeatherInfoFixedId').then(()=> {

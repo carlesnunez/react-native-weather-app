@@ -33,8 +33,8 @@ export default class City extends ValidatingModel {
             });
             break;
             case CHECK_CITY_WEATHER:
-            const wheaterInfoID = action.wheaterInfo[0].MobileLink.split("/")[6];
-            City.withId(wheaterInfoID).set('weatherInfo', wheaterInfoID);
+            const weatherInfoID = action.weatherInfo[0].MobileLink.split("/")[6];
+            City.withId(weatherInfoID).set('weatherInfo', weatherInfoID);
             break;
         }
     }

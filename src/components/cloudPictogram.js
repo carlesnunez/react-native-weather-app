@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import styles from '../styles';
 
-const getWheaterStateTypeDef = (wheaterIcon) => {
-        switch(wheaterIcon) {
+const getWeatherStateTypeDef = (weatherIcon) => {
+        switch(weatherIcon) {
                 case 1:
                 case 2:
                 return {sun: true, cloud: false, rain: false, moon: false, snow: false};
@@ -75,17 +75,17 @@ const getSnowPictogram = () => (<View style={style.cloudPictogram.snow.rootView}
         <Image style={{tintColor: '#d3e4ff', marginTop: -100, marginLeft: 85, transform: [{ scale: 0.5 }]}} source={require('../assets/img/snowflake.png')} /></View>
 )
 
-const buildIcon = (wheaterIcon) => {
+const buildIcon = (weatherIcon) => {
         let sun, snow, moon, rain, cloud;
 
-        const wheaterStateType = getWheaterStateTypeDef(wheaterIcon),
-                hasSunOrMoon = (wheaterStateType.sun || wheaterStateType.moon);
+        const weatherStateType = getWeatherStateTypeDef(weatherIcon),
+                hasSunOrMoon = (weatherStateType.sun || weatherStateType.moon);
 
-        wheaterStateType.sun && (sun = <Image style={styles.cloudPictogram.sun} source={require('../assets/img/sun.png')} />);
-        wheaterStateType.snow && (snow = getSnowPictogram());
-        wheaterStateType.moon && (moon = <Image style={styles.cloudPictogram.moon} source={require('../assets/img/moon.png')} />)
-        wheaterStateType.rain && (rain = getRainPictogram())
-        wheaterStateType.cloud && (cloud = <Image style={{marginTop: hasSunOrMoon ? -140 : 0, marginLeft: hasSunOrMoon ? 70 : 0}} source={require('../assets/img/Cloud4.png')} />)
+        weatherStateType.sun && (sun = <Image style={styles.cloudPictogram.sun} source={require('../assets/img/sun.png')} />);
+        weatherStateType.snow && (snow = getSnowPictogram());
+        weatherStateType.moon && (moon = <Image style={styles.cloudPictogram.moon} source={require('../assets/img/moon.png')} />)
+        weatherStateType.rain && (rain = getRainPictogram())
+        weatherStateType.cloud && (cloud = <Image style={{marginTop: hasSunOrMoon ? -140 : 0, marginLeft: hasSunOrMoon ? 70 : 0}} source={require('../assets/img/Cloud4.png')} />)
 
         return (
                 <View style={styles.cloudPictogram.rootView}>
@@ -98,4 +98,4 @@ const buildIcon = (wheaterIcon) => {
         );
 };
 
-export default ({ wheaterIcon }) => buildIcon(wheaterIcon);
+export default ({ weatherIcon }) => buildIcon(weatherIcon);

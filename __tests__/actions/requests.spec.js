@@ -35,7 +35,7 @@ describe('async actions', () => {
                 const expectedActions = [
                         {
                                 type: CHECK_CITY_WEATHER,
-                                wheaterInfo: checkCityWeatherResponse,
+                                weatherInfo: checkCityWeatherResponse,
                         },
                         {
                                 type: PUSH_ROUTE,

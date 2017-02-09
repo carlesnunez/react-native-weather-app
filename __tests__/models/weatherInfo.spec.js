@@ -17,10 +17,10 @@ describe('City model', () => {
         });
     });
 
-    it('should relate our CITY weather with a valid wheaterInfo ID given by action dispatch', ()=>{
+    it('should relate our CITY weather with a valid weatherInfo ID given by action dispatch', ()=>{
         const action = {
             type: CHECK_CITY_WEATHER,
-            wheaterInfo: responseCheckCityWeather,
+            weatherInfo: responseCheckCityWeather,
         }
         expect(session.WeatherInfo.all().count()).toEqual(1);
         applyActionToModelReducer(orm, 'WeatherInfo', action, session);
