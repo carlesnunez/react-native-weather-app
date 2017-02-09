@@ -4,31 +4,46 @@ import orm from '../../src/models';
 import factory from '../factories';
 import Promise from 'bluebird';
 
-import { ReduxORMAdapter } from '../utils/index';
+import { ReduxORMAdapter, applyActionToModelReducer } from '../utils/index';
 import responseFillCityAutoComplete from '../mockups/fillAutoComplete.json';
+import responseCheckCityWeather from '../mockups/checkCityWeather.json';
 
 describe('City model', () => {
     let session;
-
-    beforeEach(() => {
+    beforeEach((done) => {
         session = orm.session(); // Before withMutations;
         factory.setAdapter(new ReduxORMAdapter(session));
-        factory.create('City').then((city)=> {
-            console.log(session.City.first());
-            console.log(city.weatherInfo);
+        factory.create('City').then(()=> {
+            done();
         });
 
     });
 
-    it('correctly handle FILL_CITY_AUTOCOMPLETE', () => {
+    it('correctly handle FILL_CITY_AUTOCOMPLETE delete all cities and push 10 new to our store', () => {
         const action = {
             type: FILL_CITY_AUTOCOMPLETE,
             response: responseFillCityAutoComplete,
         }
-        expect(1).toEqual(2);
-        //
-        // const { City } = applyActionAndGetNextSession(orm, state, action);
-        // console.log('City.all()', City.all().count());
-        // expect(3).toEqual(3);
+        //Before:
+        expect(session.City.all().count()).toEqual(1);
+
+        applyActionToModelReducer(orm, 'City', action, session);
+
+        //After:
+        expect(session.City.all().count()).toEqual(10);
+    })
+
+    it('should relate our CITY weather with a valid wheaterInfo ID given by action dispatch', ()=>{
+        const action = {
+            type: CHECK_CITY_WEATHER,
+            wheaterInfo: responseCheckCityWeather,
+        }
+
+        factory.create('WeatherInfoFixedId').then(()=> {
+            factory.create('CityWithoutWeather').then((city)=> {
+                applyActionToModelReducer(orm, 'City', action, session);
+                expect(session.City.withId(city.id).weatherInfo.id).toEqual(308526);
+            });
+        });
     })
 });

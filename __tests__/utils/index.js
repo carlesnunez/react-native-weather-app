@@ -1,6 +1,5 @@
-export function applyActionAndGetNextSession(schema, state, action) {
-  const nextState = schema.session(state, action).state;
-  return schema.session(nextState);
+export function applyActionToModelReducer(orm, modelName, action, session) {
+  session[modelName].reducer(action, session[modelName], session);
 }
 
 export class ReduxORMAdapter {
@@ -15,7 +14,7 @@ export class ReduxORMAdapter {
   get(model, attr) {
     return model[attr];
   }
-  
+
   async save(model, Model) {
    return model;
   }
