@@ -217,7 +217,8 @@ Como veis, es totalmente plausible tener reducers puros de redux y reducers de r
 
 ##Haciendo una api call para recibir datos llego el momento de usar REDUX-THUNK:
 
-Primero de todo... que es [REDUX-THUNK](https://github.com/gaearon/redux-thunk)?
+¿Primero de todo... que es [REDUX-THUNK](https://github.com/gaearon/redux-thunk)?
+
 Acorde con su propia documentacion redux-thunk es un [middleware](http://redux.js.org/docs/advanced/Middleware.html) que nos permite a un action creator devolver una funcion. Puede ser usado para retrasar el dispatch de una accion asi como someter el dispatch de esta a una condicion y evitar que la misma se dispare. 
 
 ¿Suena bien no? Veamos un ejemplo de su propia documentacion muy simple:
