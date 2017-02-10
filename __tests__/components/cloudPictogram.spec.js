@@ -6,16 +6,16 @@ import CloudPictogram from '../../src/components/cloudPictogram';
 import renderer from 'react-test-renderer';
 
 describe('<CloudPictogram />', () => {
-    it('Input and Button component renders correctly', () => {
-      const tree = renderer.create(
-        <CloudPictogram weatherIcon={2} />
-      );
-      const json = tree.toJSON();
-      expect(json).toMatchSnapshot();
-    });
-    const wrapper = shallow(<CloudPictogram weatherIcon={2} />);
+  it('Input and Button component renders correctly', () => {
+    const tree = renderer.create(
+      <CloudPictogram weatherIcon={2} />
+    );
+    const json = tree.toJSON();
+    expect(json).toMatchSnapshot();
+  });
+  const wrapper = shallow(<CloudPictogram weatherIcon={2} />);
 
-    it('Should exists', () => {
-        expect(wrapper.length).toEqual(1);
-    });
+  it('Should exists', () => {
+    expect(wrapper.length).toEqual(1);
+  });
 });

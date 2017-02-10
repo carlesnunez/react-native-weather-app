@@ -6,7 +6,7 @@ import MainSceneContainer from './mainSceneContainer';
 
 const store = storeConfiguration();
 
-export default class KeradWeather extends React.Component {
+export default class ReduxWeather extends React.Component {
   render() {
     return (
       <Provider store={store}>

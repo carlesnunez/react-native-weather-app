@@ -11,40 +11,40 @@ const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
 
 describe('async actions', () => {
-        afterEach(() => {
-                nock.cleanAll();
-        })
+  afterEach(() => {
+    nock.cleanAll();
+  })
 
-        it('creates FILL_CITY_AUTOCOMPLETE when fetching city list has been done', () => {
-                nock('https://dataservice.accuweather.com/')
-                .get('/locations/v1/cities/autocomplete?apikey=zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU&q=Madr&language=es')
-                .reply(200, fillCityAutoCompleteResponse);
-                const expectedActions = [
-                        { type: FILL_CITY_AUTOCOMPLETE, response: fillCityAutoCompleteResponse }
-                ]
-                const store = mockStore({ todos: [] });
-                return store.dispatch(actions.fetchCity('Madr')).then(() => {
-                        expect(store.getActions()).toEqual(expectedActions);
-                })
-        });
+  it('creates FILL_CITY_AUTOCOMPLETE when fetching city list has been done', () => {
+    nock('https://dataservice.accuweather.com/')
+    .get('/locations/v1/cities/autocomplete?apikey=zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU&q=Madr&language=es')
+    .reply(200, fillCityAutoCompleteResponse);
+    const expectedActions = [
+      { type: FILL_CITY_AUTOCOMPLETE, response: fillCityAutoCompleteResponse }
+    ]
+    const store = mockStore({ todos: [] });
+    return store.dispatch(actions.fetchCity('Madr')).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
+  });
 
-        it('creates CHECK_CITY_WEATHER when fetching city weather has been done', ()=> {
-                nock('https://dataservice.accuweather.com/')
-                .get(`/currentconditions/v1/308526?apikey=zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU&language=es-es&details=true`)
-                .reply(200, checkCityWeatherResponse);
-                const expectedActions = [
-                        {
-                                type: CHECK_CITY_WEATHER,
-                                weatherInfo: checkCityWeatherResponse,
-                        },
-                        {
-                                type: PUSH_ROUTE,
-                                route: { key: 'cityDetails', selectedCityId: checkCityWeatherResponse[0].MobileLink.split('/')[6] }
-                        }
-                ]
-                const store = mockStore({ todos: [] });
-                return store.dispatch(actions.checkCityWeather(oneCityResponse)).then(() => {
-                        expect(store.getActions()).toEqual(expectedActions);
-                })
-        })
+  it('creates CHECK_CITY_WEATHER when fetching city weather has been done', ()=> {
+    nock('https://dataservice.accuweather.com/')
+    .get(`/currentconditions/v1/308526?apikey=zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU&language=es-es&details=true`)
+    .reply(200, checkCityWeatherResponse);
+    const expectedActions = [
+      {
+        type: CHECK_CITY_WEATHER,
+        weatherInfo: checkCityWeatherResponse,
+      },
+      {
+        type: PUSH_ROUTE,
+        route: { key: 'cityDetails', selectedCityId: checkCityWeatherResponse[0].MobileLink.split('/')[6] }
+      }
+    ]
+    const store = mockStore({ todos: [] });
+    return store.dispatch(actions.checkCityWeather(oneCityResponse)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    })
+  })
 });

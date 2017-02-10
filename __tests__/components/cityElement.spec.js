@@ -7,20 +7,20 @@ import CityElement from '../../src/components/cityElement';
 import renderer from 'react-test-renderer';
 
 describe('<CityElement />', () => {
-    it('Input and Button component renders correctly', () => {
-      const tree = renderer.create(
-        <CityElement cityInfo={{}}/>
-      );
-      const json = tree.toJSON();
-      expect(json).toMatchSnapshot();
-    });
-    const wrapper = shallow(<CityElement cityInfo={{}}/>);
+  it('Input and Button component renders correctly', () => {
+    const tree = renderer.create(
+      <CityElement cityInfo={{}}/>
+    );
+    const json = tree.toJSON();
+    expect(json).toMatchSnapshot();
+  });
+  const wrapper = shallow(<CityElement cityInfo={{}}/>);
 
-    it('Should exists', () => {
-        expect(wrapper.length).toEqual(1);
-    });
+  it('Should exists', () => {
+    expect(wrapper.length).toEqual(1);
+  });
 
-    it('Should have one button', () => {
-        expect(wrapper.find(Button)).toHaveLength(1);
-    });
+  it('Should have one button', () => {
+    expect(wrapper.find(Button)).toHaveLength(1);
+  });
 });

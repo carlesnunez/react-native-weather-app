@@ -1,16 +1,16 @@
 {
-    "id": "308526",
-    "Version": 1,
-    "Key": "308526",
-    "Type": "City",
-    "Rank": 10,
-    "LocalizedName": "Madrid",
-    "Country": {
-        "ID": "ES",
-        "LocalizedName": "España"
-    },
-    "AdministrativeArea": {
-        "ID": "MD",
-        "LocalizedName": "Comunidad de Madrid"
-    }
+  "id": "308526",
+  "Version": 1,
+  "Key": "308526",
+  "Type": "City",
+  "Rank": 10,
+  "LocalizedName": "Madrid",
+  "Country": {
+    "ID": "ES",
+    "LocalizedName": "España"
+  },
+  "AdministrativeArea": {
+    "ID": "MD",
+    "LocalizedName": "Comunidad de Madrid"
+  }
 }

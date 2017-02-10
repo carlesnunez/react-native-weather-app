@@ -5,5 +5,13 @@ exports[`<CloudPictogram /> Input and Button component renders correctly 1`] = `
       "alignItems": "center",
       "marginTop": 150,
     }
-  } />
+  }>
+  <Image
+    source={1}
+    style={
+      Object {
+        "tintColor": "#ffff00",
+      }
+    } />
+</View>
 `;
