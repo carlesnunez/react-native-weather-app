@@ -198,7 +198,7 @@ Como podeis observar, el uso de un redux en react-native no dista en NADA a el u
 
 Pero direis... oye, estas importando orm y combiandolo como un reducer normal....Pues sí, concretamente aquí:
 
-```javascript  
+```javascript
 const rootReducerCombined = combineReducers({ root, navReducer, orm: createReducer(orm) }); 
 ```
 
