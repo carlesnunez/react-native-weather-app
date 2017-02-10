@@ -39,7 +39,7 @@ exports[`<LogoClouds /> Input and Button component renders correctly 1`] = `
         "textAlign": "center",
       }
     }>
-    KeradWeather
+    ReduxWeather
   </Text>
 </View>
 `;
