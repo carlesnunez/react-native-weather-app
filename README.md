@@ -327,6 +327,7 @@ export function fetchCity(cityName) {
 Esta funcion realizara una llamada a nuestra api mediante doApiCall que es un metodo que unicamente realiza un fetch(). Una vez recibida la response la parseara(transformara a un formato JSON valido) y llamara a la accion fillCityAutoComplete.
 
 **¿Porque debo parsear el JSON si realmente la respuesta de mi backend ya viene en formato JSON?**
+
 Esta pregunta es totalmente logica pero su respuesta lo es aun más. El fetch que usamos, realmente no hace una request mediante la api de HTML. Es react native quien la intercepta y envia al codigo nativo del dispositivo para que sea este quien realice la peticion. Por lo tanto, nuestra respuesta no sera unicamente la que venga por parte de nuestro backend si no que sera parseada tambien por el dispositivo, añadiendo informacion que pueda ser de interes. Mediante el metodo '.json()'  optendremos ASINCRONAMENTE los datos absolutos de nuestra respuesta.
 
 **NOTA: EL METODO parseResponseAndExecAction ES UN METODO PROPIO MIO, USADO PARA ABSTRAERNOS UN POCO DE LA LOGICA QUE REQUIERE PARSEAR LA RESPONSE, ESPERAR A QUE RESUELVA LA PROMISE Y LLAMAR A LA ACCION. NO ES NECESARIO USARLO**
