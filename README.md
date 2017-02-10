@@ -194,7 +194,7 @@ export const root = (state = { cityList: [], selectCityInputOpened: false, selec
     export default rootReducerCombined;
 ```
 
-Como podeis observar, el uso de un redux en react-native no dista en NADA a el uso de un reducer en react web.
+Como podeis observar, el uso de un reducer en react-native no dista en NADA a el uso de un reducer en react web ya que se usa redux y nada mas.
 
 Pero direis... oye, estas importando orm y combiandolo como un reducer normal....Pues sí, concretamente aquí:
 
