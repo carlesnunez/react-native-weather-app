@@ -32,9 +32,20 @@ Tal y como ellos se definen redux orm es una libreria  ORM "pequeña" "simple" e
 
 **¿Que modelos va a tener nuestra aplicacion?**
 
-Nuestra aplicacion va a tener dos modelos de redux-orm **city** y **weatherInfo**
-
-**Definiendo city**
+Nuestra aplicacion va a tener dos modelos de redux-orm **city** y **weather**
+ - **City** tendrá:
+    - id
+    - type
+    - name
+    - country
+    - weatherInfo
+ - **weather** tendrá
+    - id
+    - previsionText
+    - iconId
+    - temperature
+      
+**Definiendo uno de nuestros modelos**
 Si vais al fichero **src/models/city.js** podreis ver lo siguiente:
 ```javascript
 import { fk, many, attr, Model } from 'redux-orm';
@@ -129,3 +140,70 @@ static reducer(action, City, session) {
 Llegamos al metodo **reducer**.
 
 A estas alturas ya os habreis dado cuenta que toda logica aparente relacionada con un modelo esta situada dentro de el metodo reducer de nuestro modelo. Esto que aparentemente puede resultar lioso es muy util ya que (siempre manteniendo la filosofia de la programacion funcional) nuestro reducer va a realizar los cambios pertinentes UNICAMENTE a su modelo y va a devolver un estado nuevo implicitamente aunque nosotros no veamos ningun return en la funcion 'reducer'.
+
+Mas adelante explicaremos como se gestiona todo esto con un caso de uso de la app.
+
+**¿Como se inicializa redux orm y sus modelos?**
+
+```javascript
+  import City from './city';
+  import WeatherInfo from './weatherInfo';
+
+  import { ORM } from 'redux-orm';
+
+  const orm = new ORM();
+  orm.register(City, WeatherInfo);
+
+  export default orm;
+```
+
+En este fichero podemos ver que importamos nuestros modelos, importamos ORM de la libreria redux-orm y lo instanciamos.
+Una vez hecho esto, registramos nuestros modelos. Esto le dice a nuestra instancia de ORM que tiene estos dos modelos de datos. Hay que registrar TODOS nuestros modelos.
+
+Los reducers tambien deben ser inicializados en el combineReducers correspondiente, pero eso lo explicaremos mas adelante.
+
+## Definiendo nuestros Reducers:
+
+Llegamos a la parte de los reducers, para hacer memoria... ¿Qué es un reducer?
+
+Siguiendo la idea de redux base un reducer debe ser una FUNCION PURA que reciba un input, realice una accion y devuelva un output nuevo, con output nuevo quiero decir un nuevo objeto, array o lo que sea. Una funcion pura siempre debera devolver lo mismo dado un mismo input y nunca hara acciones colaterales como por ejemplo... una API request.
+
+
+```javascript
+import { combineReducers } from 'redux';
+import { createReducer } from 'redux-orm';
+import orm from '../models';
+
+import navReducer from './navReducer';
+import { FILL_CITY_AUTOCOMPLETE, OPEN_CITY_LIST,
+    CLOSE_CITY_LIST, CHECK_CITY_WEATHER } from '../constants/ActionTypes';
+
+export const root = (state = { cityList: [], selectCityInputOpened: false, selectedCity: '', weatherInfo: null }, action) => {
+        switch (action.type) {
+            case OPEN_CITY_LIST:
+            return {cityList: [], selectCityInputOpened: true, weatherInfo: null };
+            case CLOSE_CITY_LIST:
+            return { cityList: [], selectCityInputOpened: false, selectedCity: '', weatherInfo: null };
+            default:
+            return state;
+        }
+    };
+
+    const rootReducerCombined = combineReducers({ root, navReducer, orm: createReducer(orm) });
+
+    export default rootReducerCombined;
+```
+
+Como podeis observar, el uso de un redux en react-native no dista en NADA a el uso de un reducer en react web.
+
+Pero direis... oye, estas importando orm y combiandolo como un reducer normal....Pues sí, concretamente aquí:
+
+```javascript  
+const rootReducerCombined = combineReducers({ root, navReducer, orm: createReducer(orm) }); 
+```
+
+
+Como dije antes, redux-orm nos da la opcion de definir los reducers que tienen relacion con el modelo en el mismo pero luego hay que combinarlos igual. Al pasarle la instancia de orm y llamar a la funcion **createReducer** que redux-orm nos proporciona estamos creando reducers en si mismos y añadiendolos a nuestro ecosistema de redux.
+
+Como veis, es totalmente plausible tener reducers puros de redux y reducers de redux-orm a la vez.
+
