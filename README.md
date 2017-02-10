@@ -207,3 +207,126 @@ Como dije antes, redux-orm nos da la opcion de definir los reducers que tienen r
 
 Como veis, es totalmente plausible tener reducers puros de redux y reducers de redux-orm a la vez.
 
+##Haciendo una api call para recibir datos llego el momento de usar REDUX-THUNK:
+
+Primero de todo... que es [REDUX-THUNK](https://github.com/gaearon/redux-thunk)?
+Acorde con su propia documentacion redux-thunk es un [middleware](http://redux.js.org/docs/advanced/Middleware.html) que nos permite a un action creator devolver una funcion. Puede ser usado para retrasar el dispatch de una accion asi como someter el dispatch de esta a una condicion y evitar que la misma se dispare. 
+
+¿Suena bien no? Veamos un ejemplo de su propia documentacion muy simple:
+
+```javascript
+const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
+
+function increment() {
+  return {
+    type: INCREMENT_COUNTER
+  };
+}
+
+function incrementAsync() {
+  return dispatch => {
+    setTimeout(() => {
+      // Yay! Can invoke sync or async actions with `dispatch`
+      dispatch(increment());
+    }, 1000);
+  };
+}
+```
+Mediante este ejmplo retrasamos la llamada a la accion increment en 1000 segundos aun si nuestro componente ya ha llamado a la accion.
+
+**Vamos a por un ejemplo más realista**
+
+Si abris el fichero **src/actions/requests.js** vereis lo siguiente:
+
+```javascript
+import { push } from './navigation';
+
+//UTIL FUNCTIONS HERE:
+
+export const parseResponseAndExecAction = (
+                            response, actionToPerform, dispatch) =>
+                                            response.json().then((responseJson) => {
+                                                if(Array.isArray(actionToPerform)){
+                                                    actionToPerform.forEach(action => dispatch(action(responseJson)))
+                                                } else {
+                                                    dispatch(actionToPerform(responseJson));
+                                                }
+                                                });
+
+export const doApiCall = (endpoint, options) => {
+    return fetch(endpoint, options);
+}
+
+//ACTION CREATORS HERE:
+
+export const fillCityAutoComplete = (response) => {
+    return {
+        type: 'FILL_CITY_AUTOCOMPLETE',
+        response,
+    };
+};
+
+export const navigateToCityDetails = (responseJson) => {
+    return push({ key: 'cityDetails', selectedCityId: responseJson[0].MobileLink.split('/')[6] });
+}
+
+export const fillCityWeather = (weatherInfo) => {
+    return {
+        type: 'CHECK_CITY_WEATHER',
+        weatherInfo
+    }
+}
+
+//REDUX-THUNKS FROM HERE:
+
+export function fetchCity(cityName) {
+    const APIKEY = 'zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU';
+    const apiUrl = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${APIKEY}&q=${cityName}&language=es`;
+    return (dispatch) => {
+        return doApiCall(apiUrl).then((response) => parseResponseAndExecAction(response, fillCityAutoComplete, dispatch))
+        .catch((error) => {
+            console.error(error);
+        });
+    };
+}
+
+export function checkCityWeather(cityData) {
+    const APIKEY = 'zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU';
+    const apiUrl = `https://dataservice.accuweather.com/currentconditions/v1/${cityData.id}?apikey=${APIKEY}&language=es-es&details=true`;
+
+    return (dispatch) => {
+        const callbackArray = [
+            (response) => fillCityWeather(response, dispatch),
+            (response) => navigateToCityDetails(response)
+        ];
+        return doApiCall(apiUrl).then((response) => parseResponseAndExecAction(response, callbackArray, dispatch))
+        .catch((error) => {
+            console.error(error);
+        });
+    };
+}
+```
+
+Vale, esto es grande asi que intentare desglosarlo al maximo.
+
+Cuando un componente realiza una action call usando dispatch(fetchCity(cityName)) llamaremos a la siguiente funcion:
+
+```javascript
+export function fetchCity(cityName) {
+    const APIKEY = 'zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU';
+    const apiUrl = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${APIKEY}&q=${cityName}&language=es`;
+    return (dispatch) => {
+        return doApiCall(apiUrl).then((response) => parseResponseAndExecAction(response, fillCityAutoComplete, dispatch))
+        .catch((error) => {
+            console.error(error);
+        });
+    };
+}
+```
+
+Esta funcion realizara una llamada a nuestra api mediante doApiCall que es un metodo que unicamente realiza un fetch(). Una vez recibida la response la parseara(transformara a un formato JSON valido) y llamara a la accion fillCityAutoComplete.
+
+**¿Porque debo parsear el JSON si realmente la respuesta de mi backend ya viene en formato JSON?**
+Esta pregunta es totalmente logica pero su respuesta lo es aun más. El fetch que usamos, realmente no hace una request mediante la api de HTML. Es react native quien la intercepta y envia al codigo nativo del dispositivo para que sea este quien realice la peticion. Por lo tanto, nuestra respuesta no sera unicamente la que venga por parte de nuestro backend si no que sera parseada tambien por el dispositivo, añadiendo informacion que pueda ser de interes. Mediante el metodo '.json()'  optendremos ASINCRONAMENTE los datos absolutos de nuestra respuesta.
+
+**NOTA: EL METODO parseResponseAndExecAction ES UN METODO PROPIO MIO, USADO PARA ABSTRAERNOS UN POCO DE LA LOGICA QUE REQUIERE PARSEAR LA RESPONSE, ESPERAR A QUE RESUELVA LA PROMISE Y LLAMAR A LA ACCION. NO ES NECESARIO USARLO**
