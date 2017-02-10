@@ -1,6 +1,14 @@
 
 # EN CONSTRUCCION
 
+![rn](https://img.shields.io/badge/React%20Native--blue.svg)
+![ios](https://img.shields.io/badge/IOS--blue.svg)
+![android](https://img.shields.io/badge/Android--blue.svg)
+![redux](https://img.shields.io/badge/Redux--yellowgreen.svg)
+![redux-orm](https://img.shields.io/badge/redux%20thunk--yellowgreen.svg)
+![redux-thun](https://img.shields.io/badge/redux%20ORM--yellowgreen.svg)
+![jest](https://img.shields.io/badge/Jest%20--green.svg)
+
 # React native + redux-ORM + redux-thunk APP
 Este articulo pretende mostrar como crear, testear e interactuar con una API mediante una aplicacion de consulta del tiempo por ciudad.
 
