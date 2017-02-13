@@ -151,6 +151,26 @@ A estas alturas ya os habreis dado cuenta que toda logica aparente relacionada c
 
 Mas adelante explicaremos como se gestiona todo esto con un caso de uso de la app.
 
+**¿Como se crea un 'record' en algun modelo de reduxORM?**
+
+Fijandonos en el ejemplo anterior podemos ver la siguiente linea.
+
+```javascript
+ City.create({
+                        id: city.Key,
+                        type: city.Type,
+                        name: city.LocalizedName,
+                        country: city.Country.ID
+                    })
+```
+
+Es asi de simple. Y estareis pensando... **¿pero si tengo una relacion como hago para añadirla?**
+
+```javascript
+City.withId(weatherInfoID).set('weatherInfo', weatherInfoID);
+```
+Igual de simple que el ejemplo anterior. Simplemente coged el record donde querais añadir la relacion y decirle a la ID de que record quereis relacionarla. Redux-ORM sera suficientemente inteligente de hacer la relacion y solucionar todos los problemas por nosotros para que luego podamos hacer algo tan sencillo como 'miCiudad.weatherInfo' para obtener su objeto relacionado.
+
 **¿Como se inicializa redux orm y sus modelos?**
 
 ```javascript
@@ -215,7 +235,7 @@ Como dije antes, redux-orm nos da la opcion de definir los reducers que tienen r
 
 Como veis, es totalmente plausible tener reducers puros de redux y reducers de redux-orm a la vez.
 
-##Haciendo una api call para recibir datos llego el momento de usar REDUX-THUNK:
+##Haciendo una api call para recibir datos. Llego el momento de usar REDUX-THUNK:
 
 ¿Primero de todo... que es [REDUX-THUNK](https://github.com/gaearon/redux-thunk)?
 
@@ -241,7 +261,7 @@ function incrementAsync() {
   };
 }
 ```
-Mediante este ejmplo retrasamos la llamada a la accion increment en 1000 segundos aun si nuestro componente ya ha llamado a la accion.
+Mediante este ejemplo retrasamos la llamada a la accion increment en 1000 segundos aun si nuestro componente ya ha llamado a la accion.
 
 **Vamos a por un ejemplo más realista**
 
@@ -297,7 +317,7 @@ export function fetchCity(cityName) {
             console.error(error);
         });
     };
-}
+} 
 
 export function checkCityWeather(cityData) {
     const APIKEY = 'zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU';
@@ -333,10 +353,92 @@ export function fetchCity(cityName) {
 }
 ```
 
-Esta funcion realizara una llamada a nuestra api mediante doApiCall que es un metodo que unicamente realiza un fetch(). Una vez recibida la response la parseara(transformara a un formato JSON valido) y llamara a la accion fillCityAutoComplete.
+Esta funcion realizara una llamada a nuestra api mediante doApiCall que es un metodo que unicamente realiza un fetch(). Una vez recibida la response devolvera una funcion que sera llamada siguiendo el flujo normal y parseara la response(transformara a un formato JSON valido) y llamara a la accion fillCityAutoComplete.
 
 **¿Porque debo parsear el JSON si realmente la respuesta de mi backend ya viene en formato JSON?**
 
 Esta pregunta es totalmente logica pero su respuesta lo es aun más. El fetch que usamos, realmente no hace una request mediante la api de HTML. Es react native quien la intercepta y envia al codigo nativo del dispositivo para que sea este quien realice la peticion. Por lo tanto, nuestra respuesta no sera unicamente la que venga por parte de nuestro backend si no que sera parseada tambien por el dispositivo, añadiendo informacion que pueda ser de interes. Mediante el metodo '.json()'  optendremos ASINCRONAMENTE los datos absolutos de nuestra respuesta.
 
+**Lo mismo con el metodo checkCityWeather.** 
+
 **NOTA: EL METODO parseResponseAndExecAction ES UN METODO PROPIO MIO, USADO PARA ABSTRAERNOS UN POCO DE LA LOGICA QUE REQUIERE PARSEAR LA RESPONSE, ESPERAR A QUE RESUELVA LA PROMISE Y LLAMAR A LA ACCION. NO ES NECESARIO USARLO**
+
+
+##Integrando REDUX con REACT-NATIVE
+
+ Todo el ecosistema de **redux** se integra a la perfeccion con **react-native**. Si habeis trabajado previamente con react+redux sabreis que los componentes se conectan a redux mediante el metodo **connect** de la libreria 'react-redux'. En el caso de react-native es exactamente lo mismo. Separamos los componentes que tienen relacion con redux de los que no y los llamamos **CONTAINERS** un container es: Un componente que incluye la logica necesaria para pasar a nuestro componente sus props y sus acciones mediante el metodo **connect(mapStateToProps, mapDispatchToProps)(NuestroComponente)**
+ 
+ 
+ Un ejemplo es el del fichero **src/components/searchScene.js**
+ 
+```javascript
+import { connect } from 'react-redux';
+import * as requestsActions from '../actions/requests';
+import * as cityListActions from '../actions/cityList';
+import SearchScene from '../components/searchScene';
+import cityListSelector from '../selectors/citySelector';
+import React from 'react';
+
+const mapStateToProps = (state) => {
+  return {
+    cityList: cityListSelector(state),
+    selectCityInputOpened: state.root.selectCityInputOpened,
+    selectedCity: state.root.selectedCity
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return ({
+    openCityList: () => {
+      dispatch(cityListActions.openCityList());
+    },
+    closeCityList: () => {
+      dispatch(cityListActions.closeCityList());
+    },
+    onDummyButtonClick: (cityName) => {
+      dispatch(requestsActions.fetchCity(cityName))
+    },
+    checkCityWeather: (root) => {
+      dispatch(requestsActions.checkCityWeather(root));
+    }
+  });
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SearchScene);
+```
+Veamos, primero de todo importamos:
+```javascript
+import React from 'react';
+import { connect } from 'react-redux';
+import * as requestsActions from '../actions/requests';
+import * as cityListActions from '../actions/cityList';
+import SearchScene from '../components/searchScene';
+import cityListSelector from '../selectors/citySelector';
+```
+- Importamos connect de react-redux.
+- Importaremos TODOS nuestros exports de requests y los guardaremos bajo el alias requestsActions. 
+- Lo mismo con cityListActions
+
+Recogemos nuestro componente, este componente sera INYECTADO con las propiedades y las acciones que nosotros decidamos en los metodos mapStateToProps y matchDispatchToProps. 
+
+**IMPORTANTE** - Importamos cityListSelector. Un selector no es mas que una funcion que computa datos y los devuelve formateados. Y direis... y esto para que sirve? Bien, esto sirve para por ejemplo filtrar una lista de elementos de manera optima. Imaginaos que quereis ver solo elementos con la propiedad VISIBLE a true, pues gracias a el selector podriamos acceder a la lista del estado, filtrarla y devolver el estado visible a true. Un selector tambien es **memoized** eso quiere decir que nuestra funcion solo se computara si uno de los elementos usados ha cambiado y eso en si ya es super optimo.
+
+Mas info sobre selectores y memoization aquí:
+http://redux.js.org/docs/recipes/ComputingDerivedData.html
+https://en.wikipedia.org/wiki/Memoization
+
+##Que aspecto tiene un selector?
+
+```javascript
+import { createSelector } from 'redux-orm';
+import orm from '../models';
+
+const currentCitySelector = createSelector(orm, state => state.orm, (state, props) => props, (session, props) => {
+    return session.City.withId(props.selectedCityId);
+}
+);
+
+export default currentCitySelector;
+```
+
+Los selectores, a simple vista, pueden parecer complicados intentar explicarlo un poco. En concreto este selector lo que hace es recibir unas props y devolver la City que hace match con la selectedCity. Para ello accede a nuestro redux-orm y busca por ID en el modelo CITY la city con el ID correspondiente. Si esa propiedad cambiase, currentCitySelector recomputaria de nuevo mi ciudad devolviendome otra.
+
