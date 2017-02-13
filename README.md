@@ -8,9 +8,9 @@
 ![jest](https://img.shields.io/badge/Jest%20--green.svg)
 
 # React native + redux-ORM + redux-thunk APP
-Este articulo pretende mostrar como crear, testear e interactuar con una API mediante una aplicacion de consulta del tiempo por ciudad.
+Este articulo pretende mostrar como crear, testear e interactuar con una API mediante una aplicación de consulta del tiempo por ciudad.
 
-*Esta aplicación no pretende enseñarte como funciona react-native o redux a fondo pues se presupone que es algo que previamente se conoce. Tampoco es una explicacion paso a paso, solo pretende explicar en caracter general como se integra redux-orm y redux-thunk con todo el ecosistema*
+*Esta aplicación no pretende enseñarte como funciona react-native o redux a fondo pues se presupone que es algo que previamente se conoce. Tampoco es una explicación paso a paso, solo pretende explicar en caracter general como se integra redux-orm y redux-thunk con todo el ecosistema*
 
 
 ### Nivel: Medio
@@ -19,7 +19,7 @@ Este articulo pretende mostrar como crear, testear e interactuar con una API med
 
 ##Explicación del proyecto
 
-El siguiente proyecto pretende ser una aplicación con react-native, redux-orm y redux-thunk que pida los datos del tiempo a una api de AccuWeather parsee la respuesta, la incluya en el ecosistema de redux-orm y nos permita usarla. Para ello usaremos un seguido de librerías y metodos que nos ayudaran con nuestra tarea. Es muy importante que sepamos los pasos previos y sobretodo que es redux, react-native y como funcionan estos para poder llegar a entender la embergadura de este proyecto, aun así, intentaré ser lo mas explicito posible con cada paso para que no perdáis detalle.
+El siguiente proyecto pretende ser una aplicación con react-native, redux-orm y redux-thunk que pida los datos del tiempo a una api de AccuWeather parsee la respuesta, la incluya en el ecosistema de redux-orm y nos permita usarla. Para ello usaremos un seguido de librerías y métodos que nos ayudaran con nuestra tarea. Es muy importante que sepamos los pasos previos y sobretodo que es redux, react-native y como funcionan estos para poder llegar a entender la envergadura de este proyecto, aun así, intentaré ser lo mas explícito posible con cada paso para que no perdáis detalle.
 
 En cualquier caso, podéis abrir un issue con las cosas que no entendáis o creáis que están mal y se puedan mejorar, así aprenderemos todos!
 
