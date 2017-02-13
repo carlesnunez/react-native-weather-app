@@ -442,3 +442,107 @@ export default currentCitySelector;
 
 Los selectores, a simple vista, pueden parecer complicados intentar explicarlo un poco. En concreto este selector lo que hace es recibir unas props y devolver la City que hace match con la selectedCity. Para ello accede a nuestro redux-orm y busca por ID en el modelo CITY la city con el ID correspondiente. Si esa propiedad cambiase, currentCitySelector recomputaria de nuevo mi ciudad devolviendome otra.
 
+
+Con esto queda explicada a mi modo de ver todas las cosas 'liosas' de redux + redux-thunk + redux-orm y ahora... vamos con un caso practico.
+
+#CASO DE USO PRACTICO
+
+**Supongamos que quiero buscar una ciudad**
+
+![Imgur](http://i.imgur.com/fiytEtK.gif)
+
+En el momento en el que yo escribo en el input estoy disparando el metodo onChange del textInput de **src/components/searchScene.js**
+```javascript
+onChange={(e)=> e.nativeEvent.text && this.onKeyPress(e.nativeEvent.text)}
+```
+Esto llama al metodo ONKEYPRESS situado en este mismo fichero, que a su vez llamara a **this.props.onDummyButtonClick(text);**
+
+**onDummyButtonClick** esta situado en nuestro container y se lo hemos inyectado mediante mapDispatchToProps, ¿recordais?
+
+Fichero: **src/containers/searchSceneContainer.js**
+
+Concretamente aquí:
+```javascript
+const mapDispatchToProps = (dispatch) => {
+  return ({
+    openCityList: () => {
+      dispatch(cityListActions.openCityList());
+    },
+    closeCityList: () => {
+      dispatch(cityListActions.closeCityList());
+    },
+    onDummyButtonClick: (cityName) => {
+      dispatch(requestsActions.fetchCity(cityName))
+    },
+    checkCityWeather: (root) => {
+      dispatch(requestsActions.checkCityWeather(root));
+    }
+  });
+};
+```
+
+Esto solo llamará a fetchCity, pasandole el nombre de la ciudad que acabais de escribir. Sigamos el flujo.... si nos vamos a fetchCity, fichero **src/actions/requests.js** nos encontraremos nuestro magnifico redux-thunk haciendo la peticion (copio solo la funcion no todo el codigo): 
+
+```javascript
+export function fetchCity(cityName) {
+    const APIKEY = 'zOEDguz3RM6DRGh1o9UIm7dCyU4qIlKU';
+    const apiUrl = `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${APIKEY}&q=${cityName}&language=es`;
+    return (dispatch) => {
+        return doApiCall(apiUrl).then((response) => parseResponseAndExecAction(response, fillCityAutoComplete, dispatch))
+        .catch((error) => {
+            console.error(error);
+        });
+    };
+}
+```
+
+Como recordareis, este metodo pide a accuWeather la informacion, la recibe, parsea y dispara la accion **FILL_CITY_AUTOCOMPLETE**... **Y ahora, que? Pues seguimos el flujo, vamos a buscar que modelo responde a la accion** **FILL_CITY_AUTOCOMPLETE**... y vemos que el modelo **src/models/city.js** responde a ella realizando la siguiente logica:
+```javascript
+case FILL_CITY_AUTOCOMPLETE:
+            City.all().toModelArray().forEach(city => city.delete());
+            const payload = action.response.map((city) => {
+                    City.create({
+                        id: city.Key,
+                        type: city.Type,
+                        name: city.LocalizedName,
+                        country: city.Country.ID
+                    })
+            });
+            break;
+```
+
+Esto basicamente lo unico que va a hacer es BORRAR todas nuestras ciudades y añadir en base a nuestra response, todas las nuevas ciudades que accuweather nos ha enviado.
+
+**Y ahora... quien pinta estas ciudades?** Pues volvemos a nuestro container **src/containers/searchSceneContainer.js**
+
+```javascript
+const mapStateToProps = (state) => {
+  return {
+    cityList: cityListSelector(state),
+    selectCityInputOpened: state.root.selectCityInputOpened,
+    selectedCity: state.root.selectedCity,
+  };
+};
+```
+Y vemos que usamos un selector para recoger la cityList de nuestro modelo de manera optima.
+
+**¿Y quien usa esa cityList?** Para ello debemos ir a nuestro componente **src/components/searchScene.js**
+```javascript
+  getCityListElement(){
+    if(this.props.cityList.length > 0) {
+      return  <ListView style={{ flex: 1, backgroundColor: '#ebebeb' }}
+        dataSource={this.ds.cloneWithRows(this.props.cityList)}
+        enableEmptySections={true}
+        renderRow={rowData => this.getCityElement(rowData)}
+      />
+    }
+
+    return false;
+  }
+```
+Aqui vemos que mediante una ListView mostramos la info, solo si tenemos ciudades en nuestra lista.
+
+
+Con esto tenemos una vision general de lo que es un caso real del flujo de la APP. Tenemos algun otro pero os dejo a vosotros investigar.
+
+Espero que os haya sido de ayuda y agradeceria todas las dudas ayudas errores o mejoras de este ejemplo posibles.
