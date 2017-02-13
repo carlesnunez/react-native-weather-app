@@ -1,6 +1,4 @@
 
-# EN CONSTRUCCION
-
 ![rn](https://img.shields.io/badge/React%20Native--blue.svg)
 ![ios](https://img.shields.io/badge/IOS--blue.svg)
 ![android](https://img.shields.io/badge/Android--blue.svg)
