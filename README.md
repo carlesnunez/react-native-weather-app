@@ -17,11 +17,11 @@ Este articulo pretende mostrar como crear, testear e interactuar con una API med
 
 ![Imgur](http://i.imgur.com/muCu3zo.gif)
 
-##Explicacion del proyecto
+##Explicación del proyecto
 
-El siguiente proyecto pretende ser una aplicacion con react-native, redux-orm y redux-thunk que pida los datos del tiempo a una api de AccuWeather parsee la respuesta, la incluya en el exosistema de redux-orm y nos permita usarla. Para ello usaremos un seguido de librerias y metodos que nos ayudaran con nuestra tarea. Es muy importante que sepamos los pasos previos y sobretodo que es redux, react-native y como funcionan estos para poder llegar a entender la embergadura de este proyecto, aun asi, intentaré ser lo mas explicito posible con cada paso para que no perdais detalle.
+El siguiente proyecto pretende ser una aplicación con react-native, redux-orm y redux-thunk que pida los datos del tiempo a una api de AccuWeather parsee la respuesta, la incluya en el ecosistema de redux-orm y nos permita usarla. Para ello usaremos un seguido de librerías y metodos que nos ayudaran con nuestra tarea. Es muy importante que sepamos los pasos previos y sobretodo que es redux, react-native y como funcionan estos para poder llegar a entender la embergadura de este proyecto, aun así, intentaré ser lo mas explicito posible con cada paso para que no perdáis detalle.
 
-En cualquier caso, podeis abrir un issue con las cosas que no entendais o creais que estan mal y se puedan mejorar, asi aprenderemos todos!
+En cualquier caso, podéis abrir un issue con las cosas que no entendáis o creáis que están mal y se puedan mejorar, así aprenderemos todos!
 
 El proyecto constara de dos vistas:
   - Busqueda de ciudades.
@@ -30,13 +30,13 @@ El proyecto constara de dos vistas:
 **¿Todo claro? Pues empezamos!**
 
 ## Definiendo nuestro modelo de datos:
-Para gestionar relaciones entre identificadores y nuestros datos vamos a usar una potente libreria llamada [Redux-ORM](https://github.com/tommikaikkonen/redux-orm) creada por [tommikaikkonen](https://github.com/tommikaikkonen). 
+Para gestionar relaciones entre identificadores y nuestros datos vamos a usar una potente librería llamada [Redux-ORM](https://github.com/tommikaikkonen/redux-orm) creada por [tommikaikkonen](https://github.com/tommikaikkonen). 
 
 **¿Que es redux-rom?**
 
 Tal y como ellos se definen redux orm es una libreria  ORM "pequeña" "simple" e "inmutable" que nos permite gestionar datos relacionales en nuestra store de redux.
 
-**¿Que modelos va a tener nuestra aplicacion?**
+**¿Que modelos va a tener nuestra aplicación?**
 
 Nuestra aplicacion va a tener dos modelos de redux-orm **city** y **weather**
  - **City** tendrá:
@@ -52,7 +52,7 @@ Nuestra aplicacion va a tener dos modelos de redux-orm **city** y **weather**
     - temperature
       
 **Definiendo uno de nuestros modelos**
-Si vais al fichero **src/models/city.js** podreis ver lo siguiente:
+Si vais al fichero **src/models/city.js** podréis ver lo siguiente:
 ```javascript
 import { fk, many, attr, Model } from 'redux-orm';
 import propTypesMixin from 'redux-orm-proptypes';
@@ -94,7 +94,7 @@ export default class City extends ValidatingModel {
     }
 }
 ```
-¿Mucha informacion de golpe no? No os preocupeis, ahora lo desglosamos:
+¿Mucha informacion de golpe no? No os preocupéis, ahora lo desglosamos:
 
 ```javascript
 static get fields() {
@@ -107,19 +107,19 @@ static get fields() {
         }
     }
 ```
-En este metodo estatico estamos unicamente definiendo una propiedad, llamada **fields** que nos sirve para definir las propiedades de nuestro modelo City. En nuestro caso definiremos nuestros atributos de la siguiente manera:
-  - id: Un simple atributo de tipo ID que nos servira tambien como primaryKey de nuestro modelo
-  - type: Tipo de city, en nuestro caso siempre sera CITY pero accuweather envia datos de countries e incluso paises.
-  - country: El pais en el cual se encuentra la ciudad, por ejemplo [ES] para españa o [IT] para italia
-  - weatherInfo: Esta propiedad tiene una peculiaridad ya que es del tipo FK y esto significa que tiene relacion directa de muchos a uno con un weatherInfo. Redux ORM dispone de varios tipos de relaciones many, attr, fk o one to one.
-  
+En este método estático estamos únicamente definiendo una propiedad, llamada **fields** que nos sirve para definir las propiedades de nuestro modelo City. En nuestro caso definiremos nuestros atributos de la siguiente manera:
+  - id: Un simple atributo de tipo ID que nos servirá también como primaryKey de nuestro modelo
+  - type: Tipo de city, en nuestro caso siempre sera CITY pero accuweather envía datos de countries e incluso países.
+  - country: El pais en el cual se encuentra la ciudad, por ejemplo [ES] para España o [IT] para Italia
+  - weatherInfo: Esta propiedad tiene una peculiaridad ya que es del tipo FK y esto significa que tiene relación directa de muchos a uno con un weatherInfo. Redux ORM dispone de varios tipos de relaciones many, attr, fk o one to one.
+
 ```javascript
   static get modelName() {
         return 'City';
     }
  ```
   
-  Este metodo estatico tambien esta definiendo una propiedad, en este caso **modelName**. Esta propiedad determina que nombre tiene este modelo dentro del ecosistema de redux-orm. **Es importante.**
+  Este método estático también esta definiendo una propiedad, en este caso **modelName**. Esta propiedad determina que nombre tiene este modelo dentro del ecosistema de redux-orm. **Es importante.**
   
 ```javascript
 static reducer(action, City, session) {
@@ -143,13 +143,13 @@ static reducer(action, City, session) {
     }
 ```
 
-Llegamos al metodo **reducer**.
+Llegamos al método **reducer**.
 
-A estas alturas ya os habreis dado cuenta que toda logica aparente relacionada con un modelo esta situada dentro de el metodo reducer de nuestro modelo. Esto que aparentemente puede resultar lioso es muy util ya que (siempre manteniendo la filosofia de la programacion funcional) nuestro reducer va a realizar los cambios pertinentes UNICAMENTE a su modelo y va a devolver un estado nuevo implicitamente aunque nosotros no veamos ningun return en la funcion 'reducer'.
+A estas alturas ya os habréis dado cuenta que toda lógica aparente relacionada con un modelo esta situada dentro de el método reducer de nuestro modelo. Esto que aparentemente puede resultar lioso es muy útil ya que (siempre manteniendo la filosofía de la programación funcional) nuestro reducer va a realizar los cambios pertinentesÚNICAMENTE a su modelo y va a devolver un estado nuevo implícitamente aunque nosotros no veamos ningún return en la función 'reducer'.
 
 Mas adelante explicaremos como se gestiona todo esto con un caso de uso de la app.
 
-**¿Como se crea un 'record' en algun modelo de reduxORM?**
+**¿Como se crea un 'record' en algún modelo de reduxORM?**
 
 Fijandonos en el ejemplo anterior podemos ver la siguiente linea.
 
@@ -162,14 +162,14 @@ Fijandonos en el ejemplo anterior podemos ver la siguiente linea.
                     })
 ```
 
-Es asi de simple. Y estareis pensando... **¿pero si tengo una relacion como hago para añadirla?**
+Es asi de simple. Y estareis pensando... **¿pero si tengo una relación cómo hago para añadirla?**
 
 ```javascript
 City.withId(weatherInfoID).set('weatherInfo', weatherInfoID);
 ```
-Igual de simple que el ejemplo anterior. Simplemente coged el record donde querais añadir la relacion y decirle a la ID de que record quereis relacionarla. Redux-ORM sera suficientemente inteligente de hacer la relacion y solucionar todos los problemas por nosotros para que luego podamos hacer algo tan sencillo como 'miCiudad.weatherInfo' para obtener su objeto relacionado.
+Igual de simple que el ejemplo anterior. Simplemente coged el record donde queráis añadir la relación y decirle a la ID de que record queréis relacionarla. Redux-ORM sera suficientemente inteligente de hacer la relación y solucionar todos los problemas por nosotros para que luego podamos hacer algo tan sencillo como 'miCiudad.weatherInfo' para obtener su objeto relacionado.
 
-**¿Como se inicializa redux orm y sus modelos?**
+**¿Cómo se inicializa redux orm y sus modelos?**
 
 ```javascript
   import City from './city';
@@ -186,14 +186,13 @@ Igual de simple que el ejemplo anterior. Simplemente coged el record donde quera
 En este fichero podemos ver que importamos nuestros modelos, importamos ORM de la libreria redux-orm y lo instanciamos.
 Una vez hecho esto, registramos nuestros modelos. Esto le dice a nuestra instancia de ORM que tiene estos dos modelos de datos. Hay que registrar TODOS nuestros modelos.
 
-Los reducers tambien deben ser inicializados en el combineReducers correspondiente, pero eso lo explicaremos mas adelante.
+Los reducers también deben ser inicializados en el combineReducers correspondiente, pero eso lo explicaremos mas adelante.
 
 ## Definiendo nuestros Reducers:
 
 Llegamos a la parte de los reducers, para hacer memoria... ¿Qué es un reducer?
 
-Siguiendo la idea de redux base un reducer debe ser una FUNCION PURA que reciba un input, realice una accion y devuelva un output nuevo, con output nuevo quiero decir un nuevo objeto, array o lo que sea. Una funcion pura siempre debera devolver lo mismo dado un mismo input y nunca hara acciones colaterales como por ejemplo... una API request.
-
+Siguiendo la idea de redux base un reducer debe ser una FUNCIÓN PURA que reciba un input, realice una acción y devuelva un output nuevo, con output nuevo quiero decir un nuevo objeto, array o lo que sea. Una función pura siempre deberá devolver lo mismo dado un mismo input y nunca hará acciones colaterales como por ejemplo... una API request.
 
 ```javascript
 import { combineReducers } from 'redux';
@@ -220,7 +219,7 @@ export const root = (state = { cityList: [], selectCityInputOpened: false, selec
     export default rootReducerCombined;
 ```
 
-Como podeis observar, el uso de un reducer en react-native no dista en NADA a el uso de un reducer en react web ya que se usa redux y nada mas.
+Como podeis observar, el uso de un reducer en react-native no dista en NADA a el uso de un reducer en react web ya que se usa redux y nada más.
 
 Pero direis... oye, estas importando orm y combiandolo como un reducer normal....Pues sí, concretamente aquí:
 
@@ -229,7 +228,7 @@ const rootReducerCombined = combineReducers({ root, navReducer, orm: createReduc
 ```
 
 
-Como dije antes, redux-orm nos da la opcion de definir los reducers que tienen relacion con el modelo en el mismo pero luego hay que combinarlos igual. Al pasarle la instancia de orm y llamar a la funcion **createReducer** que redux-orm nos proporciona estamos creando reducers en si mismos y añadiendolos a nuestro ecosistema de redux.
+Como dije antes, redux-orm nos da la opción de definir los reducers que tienen relación con el modelo en el mismo pero luego hay que combinarlos igual. Al pasarle la instancia de orm y llamar a la función **createReducer** que redux-orm nos proporciona estamos creando reducers en si mismos y añadiendolos a nuestro ecosistema de redux.
 
 Como veis, es totalmente plausible tener reducers puros de redux y reducers de redux-orm a la vez.
 
@@ -237,9 +236,9 @@ Como veis, es totalmente plausible tener reducers puros de redux y reducers de r
 
 ¿Primero de todo... que es [REDUX-THUNK](https://github.com/gaearon/redux-thunk)?
 
-Acorde con su propia documentacion redux-thunk es un [middleware](http://redux.js.org/docs/advanced/Middleware.html) que nos permite a un action creator devolver una funcion. Puede ser usado para retrasar el dispatch de una accion asi como someter el dispatch de esta a una condicion y evitar que la misma se dispare. 
+Acorde con su propia documentación redux-thunk es un [middleware](http://redux.js.org/docs/advanced/Middleware.html) que nos permite a un action creator devolver una función. Puede ser usado para retrasar el dispatch de una acción así como someter el dispatch de esta a una condición y evitar que la misma se dispare.
+¿Suena bien no? Veamos un ejemplo de su propia documentación muy simple:
 
-¿Suena bien no? Veamos un ejemplo de su propia documentacion muy simple:
 
 ```javascript
 const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
@@ -351,20 +350,20 @@ export function fetchCity(cityName) {
 }
 ```
 
-Esta funcion realizara una llamada a nuestra api mediante doApiCall que es un metodo que unicamente realiza un fetch(). Una vez recibida la response devolvera una funcion que sera llamada siguiendo el flujo normal y parseara la response(transformara a un formato JSON valido) y llamara a la accion fillCityAutoComplete.
+Esta función realizara una llamada a nuestra api mediante doApiCall que es un método que únicamente realiza un fetch(). Una vez recibida la response devolverá una función que sera llamada siguiendo el flujo normal y parseara la response(transformara a un formato JSON valido) y llamara a la acción fillCityAutoComplete.
 
 **¿Porque debo parsear el JSON si realmente la respuesta de mi backend ya viene en formato JSON?**
 
-Esta pregunta es totalmente logica pero su respuesta lo es aun más. El fetch que usamos, realmente no hace una request mediante la api de HTML. Es react native quien la intercepta y envia al codigo nativo del dispositivo para que sea este quien realice la peticion. Por lo tanto, nuestra respuesta no sera unicamente la que venga por parte de nuestro backend si no que sera parseada tambien por el dispositivo, añadiendo informacion que pueda ser de interes. Mediante el metodo '.json()'  optendremos ASINCRONAMENTE los datos absolutos de nuestra respuesta.
+Esta pregunta es totalmente lógica pero su respuesta lo es aun más. El fetch que usamos, realmente no hace una request mediante la api de HTML. Es react native quien la intercepta y envia al codigo nativo del dispositivo para que sea este quien realice la petición. Por lo tanto, nuestra respuesta no sera únicamente la que venga por parte de nuestro backend si no que sera parseada también por el dispositivo, añadiendo información que pueda ser de interés. Mediante el método '.json()'  obtendremos ASINCRONAMENTE los datos absolutos de nuestra respuesta.
 
-**Lo mismo con el metodo checkCityWeather.** 
+**Lo mismo con el método checkCityWeather.** 
 
 **NOTA: EL METODO parseResponseAndExecAction ES UN METODO PROPIO MIO, USADO PARA ABSTRAERNOS UN POCO DE LA LOGICA QUE REQUIERE PARSEAR LA RESPONSE, ESPERAR A QUE RESUELVA LA PROMISE Y LLAMAR A LA ACCION. NO ES NECESARIO USARLO**
 
 
 ##Integrando REDUX con REACT-NATIVE
 
- Todo el ecosistema de **redux** se integra a la perfeccion con **react-native**. Si habeis trabajado previamente con react+redux sabreis que los componentes se conectan a redux mediante el metodo **connect** de la libreria 'react-redux'. En el caso de react-native es exactamente lo mismo. Separamos los componentes que tienen relacion con redux de los que no y los llamamos **CONTAINERS** un container es: Un componente que incluye la logica necesaria para pasar a nuestro componente sus props y sus acciones mediante el metodo **connect(mapStateToProps, mapDispatchToProps)(NuestroComponente)**
+ Todo el ecosistema de **redux** se integra a la perfección con **react-native**. Si habeis trabajado previamente con react+redux sabreis que los componentes se conectan a redux mediante el método **connect** de la librería 'react-redux'. En el caso de react-native es exactamente lo mismo. Separamos los componentes que tienen relación con redux de los que no y los llamamos **CONTAINERS** un container es: Un componente que incluye la lógica necesaria para pasar a nuestro componente sus props y sus acciones mediante el método **connect(mapStateToProps, mapDispatchToProps)(NuestroComponente)**
  
  
  Un ejemplo es el del fichero **src/components/searchScene.js**
@@ -416,9 +415,9 @@ import cityListSelector from '../selectors/citySelector';
 - Importaremos TODOS nuestros exports de requests y los guardaremos bajo el alias requestsActions. 
 - Lo mismo con cityListActions
 
-Recogemos nuestro componente, este componente sera INYECTADO con las propiedades y las acciones que nosotros decidamos en los metodos mapStateToProps y matchDispatchToProps. 
+Recogemos nuestro componente, este componente sera INYECTADO con las propiedades y las acciones que nosotros decidamos en los métodos mapStateToProps y matchDispatchToProps. 
 
-**IMPORTANTE** - Importamos cityListSelector. Un selector no es mas que una funcion que computa datos y los devuelve formateados. Y direis... y esto para que sirve? Bien, esto sirve para por ejemplo filtrar una lista de elementos de manera optima. Imaginaos que quereis ver solo elementos con la propiedad VISIBLE a true, pues gracias a el selector podriamos acceder a la lista del estado, filtrarla y devolver el estado visible a true. Un selector tambien es **memoized** eso quiere decir que nuestra funcion solo se computara si uno de los elementos usados ha cambiado y eso en si ya es super optimo.
+**IMPORTANTE** - Importamos cityListSelector. Un selector no es mas que una función que computa datos y los devuelve formateados. Y diréis... y esto para que sirve? Bien, esto sirve para por ejemplo filtrar una lista de elementos de manera optima. Imaginaos que queréis ver solo elementos con la propiedad VISIBLE a true, pues gracias a el selector podríamos acceder a la lista del estado, filtrarla y devolver el estado visible a true. Un selector también es **memoized** eso quiere decir que nuestra función solo se computara si uno de los elementos usados ha cambiado y eso en si ya es super optimo.
 
 Mas info sobre selectores y memoization aquí:
 http://redux.js.org/docs/recipes/ComputingDerivedData.html
@@ -438,12 +437,12 @@ const currentCitySelector = createSelector(orm, state => state.orm, (state, prop
 export default currentCitySelector;
 ```
 
-Los selectores, a simple vista, pueden parecer complicados intentar explicarlo un poco. En concreto este selector lo que hace es recibir unas props y devolver la City que hace match con la selectedCity. Para ello accede a nuestro redux-orm y busca por ID en el modelo CITY la city con el ID correspondiente. Si esa propiedad cambiase, currentCitySelector recomputaria de nuevo mi ciudad devolviendome otra.
+Los selectores, a simple vista, pueden parecer complicados intentar explicarlo un poco. En concreto este selector lo que hace es recibir unas props y devolver la City que hace match con la selectedCity. Para ello accede a nuestro redux-orm y busca por ID en el modelo CITY la city con el ID correspondiente. Si esa propiedad cambiase, currentCitySelector recomputaria de nuevo mi ciudad devolvíendome otra.
 
 
 Con esto queda explicada a mi modo de ver todas las cosas 'liosas' de redux + redux-thunk + redux-orm y ahora... vamos con un caso practico.
 
-#CASO DE USO PRACTICO
+#CASO DE USO PRÁCTICO
 
 **Supongamos que quiero buscar una ciudad**
 
