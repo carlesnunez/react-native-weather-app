@@ -32,7 +32,7 @@ El proyecto constara de dos vistas:
 ## Definiendo nuestro modelo de datos:
 Para gestionar relaciones entre identificadores y nuestros datos vamos a usar una potente librería llamada [Redux-ORM](https://github.com/tommikaikkonen/redux-orm) creada por [tommikaikkonen](https://github.com/tommikaikkonen). 
 
-**¿Que es redux-rom?**
+**¿Que es redux-orm?**
 
 Tal y como ellos se definen redux orm es una libreria  ORM "pequeña" "simple" e "inmutable" que nos permite gestionar datos relacionales en nuestra store de redux.
 
