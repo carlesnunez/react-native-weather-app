@@ -544,3 +544,14 @@ Aqui vemos que mediante una ListView mostramos la info, solo si tenemos ciudades
 Con esto tenemos una vision general de lo que es un caso real del flujo de la APP. Tenemos algun otro pero os dejo a vosotros investigar.
 
 Espero que os haya sido de ayuda y agradeceria todas las dudas ayudas errores o mejoras de este ejemplo posibles.
+
+Fuentes y recursos de interes:
+
+- https://egghead.io/courses/getting-started-with-redux
+
+- https://github.com/tommikaikkonen/redux-orm-primer
+
+- https://github.com/tommikaikkonen/redux-orm
+
+- https://medium.com/react-native-training/react-native-navigationexperimental-in-depth-6910b9b0b990#.fmlachgxf
+
