@@ -1,5 +1,5 @@
-##DISPONES DE EL README EN CASTELLANO AQUÍ:
-[README_ES](https://github.com/carlesnunez/react-native-weather-app/README_ES.md)
+##DISPONES DE EL README EN CASTELLANO AQUÍ [README_ES](https://github.com/carlesnunez/react-native-weather-app/README_ES.md)
+
 ![rn](https://img.shields.io/badge/React%20Native--blue.svg)
 ![ios](https://img.shields.io/badge/IOS--blue.svg)
 ![android](https://img.shields.io/badge/Android--blue.svg)
@@ -26,19 +26,19 @@ The project has two views:
   - Search for cities.
   - Detail of the selected
   
-** Everything clear? So let's start! **
+**Everything clear? So let's start!**
 
 ## Defining our data model:
 To manage relationships between identifiers and our data we will use a powerful library called [Redux-ORM] (https://github.com/tommikaikkonen/redux-orm) created by [tommikaikkonen] (https://github.com/tommikaikkonen ).
 
-** What is redux-orm? **
+**What is redux-orm **
 
 As they are defined redux orm is a "small" ORM "simple" and "immutable" library that allows us to manage relational data in our redux store.
 
-** Which models will our application have? **
+**Which models will our application have?**
 
-Our application will have two models of redux-orm ** city ** and ** weather **
- - ** City ** will have:
+Our application will have two models of redux-orm **city** and **weather**
+ - **City** will have:
     Id
     Type
     Name
