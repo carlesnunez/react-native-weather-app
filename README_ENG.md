@@ -361,7 +361,7 @@ This question is completely logical but its answer is even more so. The fetch we
 
 ## Integrating REDUX with REACT-NATIVE
 
- The entire redux ecosystem integrates perfectly with **react-native**. If you have previously worked with react + redux you will know that the components are connected to redux using the ** connect ** method of the 'react-redux' library. In the case of react-native is exactly the same. We separate the components that relate to redux from the ones that do not and we call them **CONTAINERS** a container is: A component that includes the logic necessary to pass to our component its props and its actions through the method **connect (mapStateToProps, MapDispatchToProps) (OurComponent)**
+ The entire redux ecosystem integrates perfectly with **react-native**. If you have previously worked with react + redux you will know that the components are connected to redux using the ** connect ** method of the 'react-redux' library. In the case of react-native is exactly the same. We separate the components that relate to redux from the ones that do not and we call them **CONTAINERS** a container is: A component that includes the logic necessary to pass to our component its props and its actions through the method **connect (mapStateToProps, MapDispatchToProps)(OurComponent)**
  
  
  An example is the file **src/components/searchScene.js**
@@ -401,7 +401,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SearchScene);
 ```
-Veamos, primero de todo importamos:
+Let's see, first of all we import:
 ```javascript
 import React from 'react';
 import { connect } from 'react-redux';
@@ -410,19 +410,19 @@ import * as cityListActions from '../actions/cityList';
 import SearchScene from '../components/searchScene';
 import cityListSelector from '../selectors/citySelector';
 ```
-- Importamos connect de react-redux.
-- Importaremos TODOS nuestros exports de requests y los guardaremos bajo el alias requestsActions. 
-- Lo mismo con cityListActions
+- We need to import connect from react-redux.
+- We will import ALL of our requests exports and save them under the alias requestsActions.
+- Same with cityListActions
 
-Recogemos nuestro componente, este componente sera INYECTADO con las propiedades y las acciones que nosotros decidamos en los métodos mapStateToProps y matchDispatchToProps. 
+We collect our component, this component will be INJECTED with the properties and actions that we decide on the methods mapStateToProps and matchDispatchToProps.
 
-**IMPORTANTE** - Importamos cityListSelector. Un selector no es mas que una función que computa datos y los devuelve formateados. Y diréis... y esto para que sirve? Bien, esto sirve para por ejemplo filtrar una lista de elementos de manera optima. Imaginaos que queréis ver solo elementos con la propiedad VISIBLE a true, pues gracias a el selector podríamos acceder a la lista del estado, filtrarla y devolver el estado visible a true. Un selector también es **memoized** eso quiere decir que nuestra función solo se computara si uno de los elementos usados ha cambiado y eso en si ya es super optimo.
+**IMPORTANT** - We import cityListSelector. A selector is nothing more than a function that computes data and returns it formatted. And you say ... and what is it for? Well, this is for example filtering a list of items optimally. Imagine that you want to see only elements with the property VISIBLE to true, because thanks to the selector we could access the list of the state, filter it and return the visible state to true. A selector is also **memoized** that means that our function will only be computed if one of the elements used has changed and that in itself is already super optimum.
 
-Mas info sobre selectores y memoization aquí:
-http://redux.js.org/docs/recipes/ComputingDerivedData.html
-https://en.wikipedia.org/wiki/Memoization
+More info on selectors and memoization here:
+Http://redux.js.org/docs/recipes/ComputingDerivedData.html
+Https://en.wikipedia.org/wiki/Memoization
 
-##Que aspecto tiene un selector?
+## What does a selector look like?
 
 ```javascript
 import { createSelector } from 'redux-orm';
@@ -436,28 +436,28 @@ const currentCitySelector = createSelector(orm, state => state.orm, (state, prop
 export default currentCitySelector;
 ```
 
-Los selectores, a simple vista, pueden parecer complicados intentar explicarlo un poco. En concreto este selector lo que hace es recibir unas props y devolver la City que hace match con la selectedCity. Para ello accede a nuestro redux-orm y busca por ID en el modelo CITY la city con el ID correspondiente. Si esa propiedad cambiase, currentCitySelector recomputaria de nuevo mi ciudad devolvíendome otra.
+The selectors, at first glance, may seem complicated to try to explain a little. Specifically this selector what it does is to receive some props and to return the City that matches with the selectedCity. To do this access our redux-orm and look for ID in the model CITY la city with the corresponding ID. If that property were changed, currentCitySelector would recompute my city again by returning another.
 
 
-Con esto queda explicada a mi modo de ver todas las cosas 'liosas' de redux + redux-thunk + redux-orm y ahora... vamos con un caso practico.
+With this it is explained to my way of seeing all the 'liosas' things of redux + redux-thunk + redux-orm and now ... let's go with a practical case.
 
-#CASO DE USO PRÁCTICO
 
-**Supongamos que quiero buscar una ciudad**
+#REAL CASE EXAMPLE
+
+**Let's say I want to look for a city**
 
 ![Imgur](http://i.imgur.com/fiytEtK.gif)
 
-En el momento en el que yo escribo en el input estoy disparando el metodo onChange del textInput de **src/components/searchScene.js**
+At the moment I write in the input I am firing the textInput method onChange from **src/components/searchScene.js**
 ```javascript
 onChange={(e)=> e.nativeEvent.text && this.onKeyPress(e.nativeEvent.text)}
 ```
-Esto llama al metodo ONKEYPRESS situado en este mismo fichero, que a su vez llamara a **this.props.onDummyButtonClick(text);**
+This calls the ONKEYPRESS method located in this same file, which in turn will call **this.props.onDummyButtonClick(text);**
 
-**onDummyButtonClick** esta situado en nuestro container y se lo hemos inyectado mediante mapDispatchToProps, ¿recordais?
+**onDummyButtonClick** is located in our container and we injected it using mapDispatchToProps, do you remember?
 
-Fichero: **src/containers/searchSceneContainer.js**
-
-Concretamente aquí:
+File: **src/containers/searchSceneContainer.js**
+Specifically here:
 ```javascript
 const mapDispatchToProps = (dispatch) => {
   return ({
@@ -477,7 +477,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 ```
 
-Esto solo llamará a fetchCity, pasandole el nombre de la ciudad que acabais de escribir. Sigamos el flujo.... si nos vamos a fetchCity, fichero **src/actions/requests.js** nos encontraremos nuestro magnifico redux-thunk haciendo la peticion (copio solo la funcion no todo el codigo): 
+This will only call fetchCity, passing it the name of the city you just wrote. Let's continue the flow .... if we go to fetchCity, file **src/actions/requests.js** we will find our magnificent redux-thunk doing the request (copy only the function not all the code):
 
 ```javascript
 export function fetchCity(cityName) {
@@ -491,8 +491,10 @@ export function fetchCity(cityName) {
     };
 }
 ```
+As you will remember, this method asks accuWeather for information, receives it, parse and triggers the action **FILL_CITY_AUTOCOMPLETE** 
 
-Como recordareis, este metodo pide a accuWeather la informacion, la recibe, parsea y dispara la accion **FILL_CITY_AUTOCOMPLETE**... **Y ahora, que? Pues seguimos el flujo, vamos a buscar que modelo responde a la accion** **FILL_CITY_AUTOCOMPLETE**... y vemos que el modelo **src/models/city.js** responde a ella realizando la siguiente logica:
+**And now, what? Then follow the flow, let's look for which model responds to the action** **FILL_CITY_AUTOCOMPLETE**  and we see that the model **src/models/city.js** responds to it doing the following:
+
 ```javascript
 case FILL_CITY_AUTOCOMPLETE:
             City.all().toModelArray().forEach(city => city.delete());
@@ -507,9 +509,9 @@ case FILL_CITY_AUTOCOMPLETE:
             break;
 ```
 
-Esto basicamente lo unico que va a hacer es BORRAR todas nuestras ciudades y añadir en base a nuestra response, todas las nuevas ciudades que accuweather nos ha enviado.
+This basically the only thing you will do is to CLEAR all our cities and add based on our response, all the new cities that accuweather has sent us.
 
-**Y ahora... quien pinta estas ciudades?** Pues volvemos a nuestro container **src/containers/searchSceneContainer.js**
+**And now... who paints these cities?** So we return to our container **src/containers/searchSceneContainer.js**
 
 ```javascript
 const mapStateToProps = (state) => {
@@ -520,9 +522,10 @@ const mapStateToProps = (state) => {
   };
 };
 ```
-Y vemos que usamos un selector para recoger la cityList de nuestro modelo de manera optima.
+And we see that we use a selector to collect the cityList of our model in an optimal way.
 
-**¿Y quien usa esa cityList?** Para ello debemos ir a nuestro componente **src/components/searchScene.js**
+**And who uses that cityList?** For this we must go to our component **src/components/searchScene.js**
+
 ```javascript
   getCityListElement(){
     if(this.props.cityList.length > 0) {
@@ -536,14 +539,14 @@ Y vemos que usamos un selector para recoger la cityList de nuestro modelo de man
     return false;
   }
 ```
-Aqui vemos que mediante una ListView mostramos la info, solo si tenemos ciudades en nuestra lista.
 
+Here we see that using a ListView we show the info, only if we have cities in our list.
 
-Con esto tenemos una vision general de lo que es un caso real del flujo de la APP. Tenemos algun otro pero os dejo a vosotros investigar.
+With this we have an overview of what is a real case of the flow of APP. We have some other but I leave to you to investigate.
 
-Espero que os haya sido de ayuda y agradeceria todas las dudas ayudas errores o mejoras de este ejemplo posibles.
+I hope you have been of help and would appreciate all the doubts help errors or improvements of this possible example.
 
-Fuentes y recursos de interes:
+Sources and resources of interest:
 
 - https://egghead.io/courses/getting-started-with-redux
 
