@@ -17,7 +17,7 @@ Este articulo pretende mostrar como crear, testear e interactuar con una API med
 
 ![Imgur](http://i.imgur.com/muCu3zo.gif)
 
-##Explicación del proyecto
+## Explicación del proyecto
 
 El siguiente proyecto pretende ser una aplicación con react-native, redux-orm y redux-thunk que pida los datos del tiempo a una api de AccuWeather parsee la respuesta, la incluya en el ecosistema de redux-orm y nos permita usarla. Para ello usaremos un seguido de librerías y métodos que nos ayudaran con nuestra tarea. Es muy importante que sepamos los pasos previos y sobretodo que es redux, react-native y como funcionan estos para poder llegar a entender la envergadura de este proyecto, aun así, intentaré ser lo mas explícito posible con cada paso para que no perdáis detalle.
 
