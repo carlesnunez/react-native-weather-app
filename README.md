@@ -1,4 +1,4 @@
-##DISPONES DE EL README EN CASTELLANO AQUÍ [README_ES](https://github.com/carlesnunez/react-native-weather-app/blob/master/README_ES.md)
+## DISPONES DE EL README EN CASTELLANO AQUÍ [README_ES](https://github.com/carlesnunez/react-native-weather-app/blob/master/README_ES.md)
 
 ![rn](https://img.shields.io/badge/React%20Native--blue.svg)
 ![ios](https://img.shields.io/badge/IOS--blue.svg)
